@@ -32,7 +32,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({
     <>
       {/* Clickable BusinessCard */}
       <div
-        className="w-full h-24 bg-white border border-black p-4 flex items-center cursor-pointer"
+        className="w-full h-24 bg-white border border-gray-300 p-4 flex items-center cursor-pointer transition-all duration-300 hover:bg-gray-100 rounded-lg"
         onClick={handleClick}
       >
         {/* Image on the Left Side */}
@@ -66,7 +66,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({
                   Add a comment
                 </label>
                 <textarea
-                  className="border rounded w-full py-2 px-3 text-gray-700 text-sm placeholder:text-xs" // text-sm for input text, placeholder:text-xs for smaller placeholder
+                  className="border rounded w-full py-2 px-3 text-gray-700 text-sm placeholder:text-xs"
                   placeholder="All feedback is kept anonymous."
                   rows={4} // Set number of rows for the textarea
                 />
