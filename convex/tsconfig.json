@@ -20,6 +20,6 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["./**/*"],
+  "include": ["./**/*", "../src/middleware.ts"],
   "exclude": ["./_generated"]
 }
