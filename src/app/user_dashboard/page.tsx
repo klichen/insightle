@@ -1,5 +1,6 @@
 "use client";
 
+import { PersonIcon } from '@radix-ui/react-icons'
 import * as React from "react";
 import { useState, useEffect } from "react";
 import BusinessCard from "@/components/ui/BusinessCard";
@@ -115,6 +116,7 @@ export default function UserHomePage() {
             <li><a href="#home" className="hover:text-gray-500">Home</a></li>
             <li><a href="#about" className="hover:text-gray-500">About</a></li>
             <li><a href="#contact" className="hover:text-gray-500">Contact</a></li>
+            <li><PersonIcon className="w-5 h-5" /></li>
           </ul>
         </div>
       </nav>
