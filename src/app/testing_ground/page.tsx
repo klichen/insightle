@@ -1,5 +1,7 @@
-"use client";
+"use client"
 
+import { useState, ChangeEvent } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,59 +10,82 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import DialogButton from "@/components/ui/DialogButton"; // Make sure this path is correct according to your folder structure
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
-export default function Component() {
-  // Mock data for the buttons
-  const dialogButtonsData = [
-    {
-      buttonText: "Feedback from John",
-      imageSrc: "/profile-john.jpg",
-      altText: "John's Profile",
-      dialogTitle: "Feedback from John",
-      fullText: "John shared some constructive feedback about your recent post.",
-    },
-    {
-      buttonText: "Feedback from Jane",
-      imageSrc: "/profile-jane.jpg",
-      altText: "Jane's Profile",
-      dialogTitle: "Feedback from Jane",
-      fullText: "Jane appreciated your recent post and gave some thoughtful comments.",
-    },
-    {
-      buttonText: "Feedback from Mike",
-      imageSrc: "/profile-mike.jpg",
-      altText: "Mike's Profile",
-      dialogTitle: "Feedback from Mike",
-      fullText: "Mike found your insights on the topic to be very helpful.",
-    },
-  ];
+export const description =
+  "A profile creation form with business name, description, and image upload.";
+
+export default function ProfileCreationForm() {
+  // Define state for image preview with type annotations
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  // Event handler for image input change
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]; // Optional chaining for type safety
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string); // Type cast result to string
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
-    <Card>
+    <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Comments</CardTitle>
+        <CardTitle className="text-2xl">Create a Profile</CardTitle>
         <CardDescription>
-          View your feedback from community members.
+          Enter your business name, a short description, and upload an image.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        {dialogButtonsData.map((buttonData, index) => (
-          <div key={index} className="mb-4"> {/* Added margin-bottom */}
-            <DialogButton
-              buttonText={buttonData.buttonText}
-              imageSrc={buttonData.imageSrc}
-              altText={buttonData.altText}
-              dialogTitle={buttonData.dialogTitle}
-              fullText={buttonData.fullText}
-            />
+      <CardContent className="grid gap-4">
+        <div className="grid gap-2">
+          <Label htmlFor="businessName">Business Name</Label>
+          <Input
+            id="businessName"
+            type="text"
+            placeholder="Your Business Name"
+            required
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="description">Short Description</Label>
+          <Textarea
+            id="description"
+            placeholder="Describe your business"
+            required
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="imageUpload">Business Image</Label>
+          <div
+            className="relative w-full h-48 bg-gray-200 rounded-lg cursor-pointer flex items-center justify-center"
+            onClick={() => document.getElementById("imageUpload")?.click()}
+          >
+            {imagePreview ? (
+              <img
+                src={imagePreview}
+                alt="Uploaded Preview"
+                className="object-cover w-full h-full rounded-lg"
+              />
+            ) : (
+              <div className="text-gray-500">Click to upload an image</div>
+            )}
           </div>
-        ))}
+          <Input
+            id="imageUpload"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageChange}
+          />
+        </div>
       </CardContent>
       <CardFooter>
-        <div className="text-xs text-muted-foreground">
-          Showing <strong>1-3</strong> of <strong>{dialogButtonsData.length}</strong> comments
-        </div>
+        <Button className="w-full">Create Profile</Button>
       </CardFooter>
     </Card>
   );
