@@ -8,13 +8,20 @@ const schema = defineSchema({
     name: v.optional(v.string()),
     image: v.optional(v.string()),
     email: v.optional(v.string()),
-    emailVerificationTime: v.optional(v.number()),
-    phone: v.optional(v.string()),
-    phoneVerificationTime: v.optional(v.number()),
     isAnonymous: v.optional(v.boolean()),
     isOwner: v.optional(v.boolean()),
   }).index("email", ["email"]),
-  // Your other tables...
+  businesses: defineTable({
+    ownerId: v.id("users"),
+    name: v.string(),
+    description: v.string(),
+  }),
+  feedback: defineTable({
+    author: v.string(),
+    authorId: v.id("users"),
+    content: v.string(),
+    businessId: v.id("businesses")
+  }).index("byBusinessId", ["businessId"])
 });
  
 export default schema;
