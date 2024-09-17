@@ -58,7 +58,7 @@ export default function UserHomePage({ currentUser }: { currentUser: User }) {
     <div>
       {/* Navbar */}
       <nav
-        className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 `}
+        className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 shadow-md`}
       >
         <div className="flex justify-between items-center max-w-5xl mx-auto">
           <div className="text-2xl font-bold">Insightle.</div>
