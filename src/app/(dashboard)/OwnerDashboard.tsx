@@ -173,7 +173,7 @@ export default function Component({ bizId }: { bizId: Id<'businesses'> }) {
           <Card className="col-span-1">
             <CardHeader>
               <CardTitle>Keyword Tracker</CardTitle>
-              <CardDescription>Top Keywords Progress</CardDescription>
+              <CardDescription>Top Keywords</CardDescription>
             </CardHeader>
             <CardContent>
               {/* Example Keywords Data */}

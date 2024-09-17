@@ -84,7 +84,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({
                 </label>
                 <textarea
                   className="border rounded w-full py-2 px-3 text-gray-700 text-sm placeholder:text-xs"
-                  placeholder="All feedback is kept anonymous."
+                  placeholder=""
                   rows={4} // Set number of rows for the textarea
                   onChangeCapture={e => setFeedback(e.currentTarget.value)}
                 />
