@@ -87,7 +87,7 @@ export default function Component({ bizId }: { bizId: Id<'businesses'> }) {
 
           {/* Spacing between logo and AvatarIcon */}
           <div className="ml-auto mr--10">
-            <AvatarIcon />
+            <AvatarIcon className="w-5 h-5"/>
           </div>
         </div>
       </nav>
@@ -178,10 +178,10 @@ export default function Component({ bizId }: { bizId: Id<'businesses'> }) {
             <CardContent>
               {/* Example Keywords Data */}
               {[
-                { keyword: "React", mentions: 120, percentage: 75 },
-                { keyword: "JavaScript", mentions: 90, percentage: 60 },
-                { keyword: "Next.js", mentions: 68, percentage: 45 },
-                { keyword: "UI/UX", mentions: 45, percentage: 30 },
+                { keyword: "good", mentions: 120, percentage: 75 },
+                { keyword: "average", mentions: 90, percentage: 60 },
+                { keyword: "service", mentions: 68, percentage: 45 },
+                { keyword: "friendly", mentions: 45, percentage: 30 },
               ].map((item, index) => (
                 <div key={index} className="mb-4">
                   <div className="flex justify-between items-center">

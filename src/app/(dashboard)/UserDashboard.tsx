@@ -1,6 +1,6 @@
 'use client';
 
-import { PersonIcon } from '@radix-ui/react-icons'
+import { AvatarIcon } from '@radix-ui/react-icons'
 import * as React from "react";
 import { useState } from "react";
 import BusinessCard from "@/components/ui/BusinessCard";
@@ -62,9 +62,9 @@ export default function UserHomePage({ currentUser }: { currentUser: User }) {
       >
         <div className="flex justify-between items-center max-w-5xl mx-auto">
           <div className="text-2xl font-bold">Insightle.</div>
-          <ul className="flex space-x-6">
-            <li><PersonIcon className="w-5 h-5" /></li>
-          </ul>
+          <div className="ml-auto mr--10">
+            <AvatarIcon className="w-5 h-5"/>
+          </div>
         </div>
       </nav>
 
