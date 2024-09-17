@@ -61,7 +61,7 @@ export default function UserHomePage({ currentUser }: { currentUser: User }) {
         className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300`}
       >
         <div className="flex justify-between items-center max-w-5xl mx-auto">
-          <div className="text-2xl font-bold">Insightle</div>
+          <div className="text-2xl font-bold">Insightle.</div>
           <ul className="flex space-x-6">
             <li><PersonIcon className="w-5 h-5" /></li>
           </ul>

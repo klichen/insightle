@@ -83,11 +83,7 @@ export default function Component({ bizId }: { bizId: Id<'businesses'> }) {
       >
         <div className="flex items-center px-4">
           {/* Logo */}
-          <img
-            src="/insightleicon.png" // Update this path to your image file
-            alt="Logo"
-            className="h-10 w-auto" // Adjust the size as needed
-          />
+          <div className="text-2xl font-bold">Insightle.</div>
 
           {/* Spacing between logo and AvatarIcon */}
           <div className="ml-auto mr--10">
