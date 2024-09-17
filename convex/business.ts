@@ -21,7 +21,7 @@ export const getOwnerBusiness = query({
         const ownerBusiness = await ctx.db
             .query("businesses")
             .withIndex("byOwnerId", q => q.eq("ownerId", ownerId))  // Filter by ownerId
-            .collect();
+            .first();
         return ownerBusiness;
     },
 });

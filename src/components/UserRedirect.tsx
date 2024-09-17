@@ -23,14 +23,14 @@ function UserRedirect() {
         <div>
             {currentUser?.isOwner === true ?
                 <div>
-                    {currentBusiness?.length === 0 && businessCreated === false ?
+                    {currentBusiness === null && businessCreated === false ?
                         <CreateBusinessProfile currentUser={currentUser} stateChanger={setBusinessCreated} />
                         :
-                        <OwnerDashboard />
+                        <OwnerDashboard bizId={currentBusiness?._id} />
                     }
                 </div>
                 :
-                <UserDashboard />
+                <UserDashboard currentUser={currentUser} />
             }
         </div>
     )

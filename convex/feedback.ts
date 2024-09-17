@@ -20,7 +20,8 @@ export const businessFeedback = query({
         const feedback = await ctx.db
             .query("feedback")
             .filter((q) => q.eq(q.field("businessId"), args.businessId))
-            .order("desc");
+            .order("desc")
+            .collect();
         return feedback;
     },
 });

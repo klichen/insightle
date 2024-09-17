@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { useState } from "react";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 // Define the props interface
 interface BusinessCardProps {
@@ -12,11 +14,22 @@ interface BusinessCardProps {
 
 // Reusable BusinessCard component
 const BusinessCard: React.FC<BusinessCardProps> = ({
-  imageSrc,
+  // imageSrc,
   title,
   subtext,
+  currentUser,
+  bizId
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [feedback, setFeedback] = useState("");
+
+  const sendFeedback = useMutation(api.feedback.sendFeedback)
+
+  const handleSubmitFeedback = async () => {
+    // console.log(bizId)
+    await sendFeedback({ author: currentUser.name, authorId: currentUser._id, content: feedback, businessId: bizId });
+    setIsModalOpen(false);
+  }
 
   // Handle click event to open modal
   const handleClick = () => {
@@ -37,7 +50,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({
       >
         {/* Image on the Left Side */}
         <img
-          src={imageSrc}
+          src={"/favicon.ico"}
           alt="Left side image"
           className="h-full object-contain mr-4"
         />
@@ -69,6 +82,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({
                   className="border rounded w-full py-2 px-3 text-gray-700 text-sm placeholder:text-xs"
                   placeholder="All feedback is kept anonymous."
                   rows={4} // Set number of rows for the textarea
+                  onChangeCapture={e => setFeedback(e.currentTarget.value)}
                 />
               </div>
               <div className="flex justify-end">
@@ -80,8 +94,9 @@ const BusinessCard: React.FC<BusinessCardProps> = ({
                   Cancel
                 </button>
                 <button
-                  type="submit"
+                  type="button"
                   className="bg-blue-500 text-white px-4 py-2 rounded"
+                  onClick={handleSubmitFeedback}
                 >
                   Submit
                 </button>

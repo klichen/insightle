@@ -1,21 +1,67 @@
-'use client';
+"use client";
 
 import { PersonIcon } from '@radix-ui/react-icons'
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BusinessCard from "@/components/ui/BusinessCard";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 
-export default function UserHomePage({ currentUser }) {
+// List of businesses
+// const businesses = [
+//   {
+//     imageSrc: "/favicon.ico",
+//     title: "Tech Innovators Inc.",
+//     subtext: "Leading the way in tech solutions.",
+//   },
+//   {
+//     imageSrc: "/favicon.ico",
+//     title: "Green Thumb Landscaping",
+//     subtext: "Transforming outdoor spaces with care.",
+//   },
+//   // More items here if needed
+// ];
+
+const ITEMS_PER_PAGE = 4; // Number of items to load per scroll
+
+export default function UserHomePage() {
   const businesses = useQuery(api.business.getBusinesses);
+  console.log(businesses)
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [filteredBusinesses, setFilteredBusinesses] = useState(businesses);
   const [sortOption, setSortOption] = useState<string>("");
+  const [visibleBusinesses, setVisibleBusinesses] = useState(businesses?.slice(0, ITEMS_PER_PAGE)); // Initial visible items
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false); // Track loading state
+  const [isScrolled, setIsScrolled] = useState<boolean>(false); // Track if page is scrolled
+
+  const handleScroll = React.useCallback(() => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50 && hasMore) {
+      loadMoreItems();
+    }
+
+    // Check if the page is scrolled down
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  }, []);
+
+  // Listen for scroll events and check if there are more items when the page loads
+  useEffect(() => {
+    setHasMore(filteredBusinesses?.length > ITEMS_PER_PAGE);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [filteredBusinesses, visibleBusinesses, hasMore, handleScroll]);
 
   if (!businesses) {
     return (
       <div>No business currently</div>
-    );
+    )
   }
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +74,9 @@ export default function UserHomePage({ currentUser }) {
         business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         business.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    return filtered;
+    setFilteredBusinesses(filtered);
+    setVisibleBusinesses(filtered.slice(0, ITEMS_PER_PAGE)); // Reset visible businesses after search
+    setHasMore(filtered.length > ITEMS_PER_PAGE); // Reset hasMore flag
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -39,19 +87,44 @@ export default function UserHomePage({ currentUser }) {
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOption(e.target.value);
+    // Add sorting logic here based on the selected option if needed
   };
 
-  const filteredBusinesses = handleSearch();
+  // Infinite scrolling logic
+  const loadMoreItems = () => {
+    if (loading) return; // Prevent multiple triggers of the loading function
+
+    setLoading(true); // Start loading
+
+    const nextItems = filteredBusinesses.slice(
+      visibleBusinesses.length,
+      visibleBusinesses.length + ITEMS_PER_PAGE
+    );
+
+    if (nextItems.length > 0) {
+      setVisibleBusinesses((prevVisible) => [...prevVisible, ...nextItems]);
+    }
+
+    if (nextItems.length < ITEMS_PER_PAGE || visibleBusinesses.length + nextItems.length === filteredBusinesses.length) {
+      setHasMore(false); // No more items to load
+    }
+
+    setLoading(false); // Finish loading
+  };
 
   return (
     <div>
       {/* Navbar */}
       <nav
-        className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300`}
+        className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 ${isScrolled ? "shadow-md" : ""
+          }`}
       >
         <div className="flex justify-between items-center max-w-5xl mx-auto">
-          <div className="text-2xl font-bold">Insightle</div>
+          <div className="text-2xl font-bold">My Website</div>
           <ul className="flex space-x-6">
+            <li><a href="#home" className="hover:text-gray-500">Home</a></li>
+            <li><a href="#about" className="hover:text-gray-500">About</a></li>
+            <li><a href="#contact" className="hover:text-gray-500">Contact</a></li>
             <li><PersonIcon className="w-5 h-5" /></li>
           </ul>
         </div>
@@ -102,21 +175,26 @@ export default function UserHomePage({ currentUser }) {
 
           {/* Business Cards */}
           <div className="w-full flex flex-col space-y-6 min-h-[500px]">
-            {filteredBusinesses.length > 0 ? (
-              filteredBusinesses.map((business, index) => (
+            {visibleBusinesses.length > 0 ? (
+              visibleBusinesses.map((business, index) => (
                 <BusinessCard
                   key={index}
-                  currentUser={currentUser}
-                  imageSrc={"/favicon.ico"}
+                  imageSrc={business.imageSrc}
                   title={business.name}
                   subtext={business.description}
-                  bizId={business._id}
                 />
               ))
             ) : (
               <div>No businesses found</div>
             )}
           </div>
+
+          {/* Loading Indicator */}
+          {loading && (
+            <div className="text-center">
+              <p>Loading more...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
