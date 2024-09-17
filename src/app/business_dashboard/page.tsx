@@ -1,5 +1,6 @@
 "use client";
 
+import { PersonIcon, AvatarIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 import { TrendingUp } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
@@ -57,7 +58,7 @@ export default function Component() {
   React.useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
-        setIsScrolled(true); 
+        setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
@@ -72,39 +73,27 @@ export default function Component() {
 
   return (
     <>
-      {/* Navbar */}
-      <nav
-        className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 ${
-          isScrolled ? "shadow-md" : ""
-        }`}
-      >
-        <div className="flex items-center px-4">
-          {/* Logo and navigation items grouped together */}
-          <div className="flex space-x-6 items-center">
-            {/* Logo */}
-            <div className="text-2xl font-bold pr-80">Logo</div>
+    {/* Navbar */}
+    <nav
+      className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 ${
+        isScrolled ? "shadow-md" : ""
+      }`}
+    >
+      <div className="flex items-center px-4">
+        {/* Logo */}
+        <img
+          src="/insightleicon.png" // Update this path to your image file
+          alt="Logo"
+          className="h-10 w-auto" // Adjust the size as needed
+        />
 
-            {/* Navigation links */}
-            <ul className="flex space-x-6 text-sm">
-              <li>
-                <a href="#home" className="hover:text-gray-500">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#about" className="hover:text-gray-500">
-                  Analytics
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="hover:text-gray-500">
-                  Settings
-                </a>
-              </li>
-            </ul>
-          </div>
+        {/* Spacing between logo and AvatarIcon */}
+        <div className="ml-auto mr--10">
+          <AvatarIcon />
         </div>
-      </nav>
+      </div>
+    </nav>
+
 
 
 
@@ -116,7 +105,6 @@ export default function Component() {
 
         {/* Dashboard Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 py-4">
-          
           {/* Sentiment Analysis Card */}
           <Card className="col-span-2">
             <CardHeader className="items-center pb-0">
@@ -223,30 +211,27 @@ function CommentsCard() {
   const dialogButtonsData = [
     {
       buttonText: "Feedback from John",
-      imageSrc: "/profile-john.jpg",
-      altText: "John's Profile",
+      icon: <PersonIcon className="h-6 w-6" />,
       dialogTitle: "Feedback from John",
       fullText: "John shared some constructive feedback about your recent post.",
     },
     {
       buttonText: "Feedback from Jane",
-      imageSrc: "/profile-jane.jpg",
-      altText: "Jane's Profile",
+      icon: <PersonIcon className="h-6 w-6" />,
       dialogTitle: "Feedback from Jane",
       fullText:
         "Jane appreciated your recent post and gave some thoughtful comments.",
     },
     {
       buttonText: "Feedback from Mike",
-      imageSrc: "/profile-mike.jpg",
-      altText: "Mike's Profile",
+      icon: <PersonIcon className="h-6 w-6" />,
       dialogTitle: "Feedback from Mike",
       fullText: "Mike found your insights on the topic to be very helpful.",
     },
   ];
 
   return (
-    <Card className="rounded-none">
+    <Card className="rounded-md">
       <CardHeader>
         <CardTitle>Comments</CardTitle>
         <CardDescription>
@@ -258,8 +243,7 @@ function CommentsCard() {
           <div key={index} className="mb-4">
             <DialogButton
               buttonText={buttonData.buttonText}
-              imageSrc={buttonData.imageSrc}
-              altText={buttonData.altText}
+              icon={buttonData.icon}
               dialogTitle={buttonData.dialogTitle}
               fullText={buttonData.fullText}
             />

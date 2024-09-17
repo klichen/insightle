@@ -1,6 +1,18 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
+export const getBusinesses = query({
+    args: {},
+    handler: async (ctx) => {
+        // grab feedback for corresponding businessId
+        const businesses = await ctx.db
+            .query("businesses")
+            .order("desc")
+            .collect();
+        return businesses;
+    },
+});
+
 export const businessFeedback = query({
     args: { businessId: v.id("businesses") },
     handler: async (ctx, args) => {
