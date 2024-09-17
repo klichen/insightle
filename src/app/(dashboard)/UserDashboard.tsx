@@ -57,7 +57,7 @@ export default function UserHomePage({ currentUser }: { currentUser: User }) {
   return (
     <div
     style={{
-      backgroundImage: `url('/userdashbg.png')`, // Change the path to your image
+      backgroundImage: `url('/userdashbg2.png')`, // Change the path to your image
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
