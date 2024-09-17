@@ -52,12 +52,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({
         className="w-full h-24 bg-white border border-gray-300 p-4 flex items-center cursor-pointer transition-all duration-300 hover:bg-gray-100 rounded-lg"
         onClick={handleClick}
       >
-        {/* Image on the Left Side */}
-        <img
-          src={"/favicon.ico"}
-          alt="Left side image"
-          className="h-full object-contain mr-4"
-        />
+
         {/* Title and Subtext on the Right */}
         <div>
           <h1 className="text-lg font-bold">{title}</h1>
