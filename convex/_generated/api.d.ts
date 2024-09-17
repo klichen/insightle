@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as auth from "../auth.js";
+import type * as business from "../business.js";
 import type * as CustomPassword from "../CustomPassword.js";
 import type * as feedback from "../feedback.js";
 import type * as http from "../http.js";
@@ -28,6 +29,7 @@ import type * as http from "../http.js";
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  business: typeof business;
   CustomPassword: typeof CustomPassword;
   feedback: typeof feedback;
   http: typeof http;

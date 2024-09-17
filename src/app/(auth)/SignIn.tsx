@@ -1,6 +1,6 @@
 'use client'
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -24,8 +24,8 @@ function SignIn() {
 
     const onChangeCheckBox = () => {
         setIsOwner(!isOwner);
-        console.log(email)
     };
+
 
     const handleSubmit = () => {
         const signInData = {
@@ -36,10 +36,10 @@ function SignIn() {
             isOwner,
         };
         signIn("password", signInData)
-            // .then(() => {
-            //     // handleSent?.(formData.get("email") as string);
-            //     alert("You have signed in!")
-            // })
+            .then(async () => {
+                // handleSent?.(formData.get("email") as string);
+                setSubmitting(true);
+            })
             .catch((error) => {
                 console.error(error);
                 alert('An error occured, make sure you have an account before trying to login')

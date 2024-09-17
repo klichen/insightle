@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/chart";
 import DialogButton from "@/components/ui/DialogButton";
 import { Progress } from "@/components/ui/progress";
+import { useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 // Sentiment analysis data
 const chartData = [
@@ -47,7 +49,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function Component() {
+export default function Component({ bizId }) {
   const totalSentiments = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.count, 0);
   }, []);
@@ -73,26 +75,25 @@ export default function Component() {
 
   return (
     <>
-    {/* Navbar */}
-    <nav
-      className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 ${
-        isScrolled ? "shadow-md" : ""
-      }`}
-    >
-      <div className="flex items-center px-4">
-        {/* Logo */}
-        <img
-          src="/insightleicon.png" // Update this path to your image file
-          alt="Logo"
-          className="h-10 w-auto" // Adjust the size as needed
-        />
+      {/* Navbar */}
+      <nav
+        className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 ${isScrolled ? "shadow-md" : ""
+          }`}
+      >
+        <div className="flex items-center px-4">
+          {/* Logo */}
+          <img
+            src="/insightleicon.png" // Update this path to your image file
+            alt="Logo"
+            className="h-10 w-auto" // Adjust the size as needed
+          />
 
-        {/* Spacing between logo and AvatarIcon */}
-        <div className="ml-auto mr--10">
-          <AvatarIcon />
+          {/* Spacing between logo and AvatarIcon */}
+          <div className="ml-auto mr--10">
+            <AvatarIcon />
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
 
 
 
@@ -199,7 +200,7 @@ export default function Component() {
 
         {/* Comments Section */}
         <div className="px-8 py-4">
-          <CommentsCard />
+          <CommentsCard bizId={bizId} />
         </div>
       </div>
     </>
@@ -207,28 +208,14 @@ export default function Component() {
 }
 
 // Comments Card Component
-function CommentsCard() {
-  const dialogButtonsData = [
-    {
-      buttonText: "Feedback from John",
-      icon: <PersonIcon className="h-6 w-6" />,
-      dialogTitle: "Feedback from John",
-      fullText: "John shared some constructive feedback about your recent post.",
-    },
-    {
-      buttonText: "Feedback from Jane",
-      icon: <PersonIcon className="h-6 w-6" />,
-      dialogTitle: "Feedback from Jane",
-      fullText:
-        "Jane appreciated your recent post and gave some thoughtful comments.",
-    },
-    {
-      buttonText: "Feedback from Mike",
-      icon: <PersonIcon className="h-6 w-6" />,
-      dialogTitle: "Feedback from Mike",
-      fullText: "Mike found your insights on the topic to be very helpful.",
-    },
-  ];
+function CommentsCard({ bizId }) {
+  const feedback = useQuery(api.feedback.businessFeedback, { businessId: bizId });
+
+  if (!feedback || feedback.length === 0) {
+    return (
+      <div>No feedback yet D:</div>
+    )
+  }
 
   return (
     <Card className="rounded-md">
@@ -239,22 +226,22 @@ function CommentsCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {dialogButtonsData.map((buttonData, index) => (
+        {feedback.map((comment, index) => (
           <div key={index} className="mb-4">
             <DialogButton
-              buttonText={buttonData.buttonText}
-              icon={buttonData.icon}
-              dialogTitle={buttonData.dialogTitle}
-              fullText={buttonData.fullText}
+              buttonText={`Feedback from ${comment.author}`}
+              icon={<PersonIcon className="h-6 w-6" />}
+              dialogTitle={`Feedback from ${comment.author}`}
+              fullText={comment.content}
             />
           </div>
         ))}
       </CardContent>
-      <CardFooter>
+      {/* <CardFooter>
         <div className="text-xs text-muted-foreground">
           Showing <strong>1-3</strong> of <strong>{dialogButtonsData.length}</strong> comments
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }

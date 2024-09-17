@@ -20,7 +20,8 @@ export const businessFeedback = query({
         const feedback = await ctx.db
             .query("feedback")
             .filter((q) => q.eq(q.field("businessId"), args.businessId))
-            .order("desc");
+            .order("desc")
+            .collect();
         return feedback;
     },
 });
@@ -30,13 +31,5 @@ export const sendFeedback = mutation({
     handler: async (ctx, { content, author, authorId, businessId }) => {
         // Send new feedback message
         await ctx.db.insert("feedback", { content, author, authorId, businessId });
-    },
-});
-
-export const createBusiness = mutation({
-    args: { ownerId: v.id("users"), name: v.string(), description: v.string(), },
-    handler: async (ctx, { ownerId, name, description }) => {
-        // Create business profile
-        await ctx.db.insert("businesses", { ownerId, name, description });
     },
 });

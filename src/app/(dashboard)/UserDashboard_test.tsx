@@ -4,32 +4,65 @@ import { PersonIcon } from '@radix-ui/react-icons'
 import * as React from "react";
 import { useState, useEffect } from "react";
 import BusinessCard from "@/components/ui/BusinessCard";
+import { useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 // List of businesses
-const businesses = [
-  {
-    imageSrc: "/favicon.ico",
-    title: "Tech Innovators Inc.",
-    subtext: "Leading the way in tech solutions.",
-  },
-  {
-    imageSrc: "/favicon.ico",
-    title: "Green Thumb Landscaping",
-    subtext: "Transforming outdoor spaces with care.",
-  },
-  // More items here if needed
-];
+// const businesses = [
+//   {
+//     imageSrc: "/favicon.ico",
+//     title: "Tech Innovators Inc.",
+//     subtext: "Leading the way in tech solutions.",
+//   },
+//   {
+//     imageSrc: "/favicon.ico",
+//     title: "Green Thumb Landscaping",
+//     subtext: "Transforming outdoor spaces with care.",
+//   },
+//   // More items here if needed
+// ];
 
 const ITEMS_PER_PAGE = 4; // Number of items to load per scroll
 
 export default function UserHomePage() {
+  const businesses = useQuery(api.business.getBusinesses);
+  console.log(businesses)
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredBusinesses, setFilteredBusinesses] = useState(businesses);
   const [sortOption, setSortOption] = useState<string>("");
-  const [visibleBusinesses, setVisibleBusinesses] = useState(businesses.slice(0, ITEMS_PER_PAGE)); // Initial visible items
+  const [visibleBusinesses, setVisibleBusinesses] = useState(businesses?.slice(0, ITEMS_PER_PAGE)); // Initial visible items
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false); // Track loading state
   const [isScrolled, setIsScrolled] = useState<boolean>(false); // Track if page is scrolled
+
+  const handleScroll = React.useCallback(() => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50 && hasMore) {
+      loadMoreItems();
+    }
+
+    // Check if the page is scrolled down
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  }, []);
+
+  // Listen for scroll events and check if there are more items when the page loads
+  useEffect(() => {
+    setHasMore(filteredBusinesses?.length > ITEMS_PER_PAGE);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [filteredBusinesses, visibleBusinesses, hasMore, handleScroll]);
+
+  if (!businesses) {
+    return (
+      <div>No business currently</div>
+    )
+  }
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -38,8 +71,8 @@ export default function UserHomePage() {
   const handleSearch = () => {
     const filtered = businesses.filter(
       (business) =>
-        business.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        business.subtext.toLowerCase().includes(searchTerm.toLowerCase())
+        business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        business.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredBusinesses(filtered);
     setVisibleBusinesses(filtered.slice(0, ITEMS_PER_PAGE)); // Reset visible businesses after search
@@ -79,36 +112,12 @@ export default function UserHomePage() {
     setLoading(false); // Finish loading
   };
 
-  const handleScroll = () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50 && hasMore) {
-      loadMoreItems();
-    }
-
-    // Check if the page is scrolled down
-    if (window.scrollY > 0) {
-      setIsScrolled(true);
-    } else {
-      setIsScrolled(false);
-    }
-  };
-
-  // Listen for scroll events and check if there are more items when the page loads
-  useEffect(() => {
-    setHasMore(filteredBusinesses.length > ITEMS_PER_PAGE);
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [filteredBusinesses, visibleBusinesses, hasMore]);
-
   return (
     <div>
       {/* Navbar */}
       <nav
-        className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 ${
-          isScrolled ? "shadow-md" : ""
-        }`}
+        className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 ${isScrolled ? "shadow-md" : ""
+          }`}
       >
         <div className="flex justify-between items-center max-w-5xl mx-auto">
           <div className="text-2xl font-bold">My Website</div>
@@ -171,8 +180,8 @@ export default function UserHomePage() {
                 <BusinessCard
                   key={index}
                   imageSrc={business.imageSrc}
-                  title={business.title}
-                  subtext={business.subtext}
+                  title={business.name}
+                  subtext={business.description}
                 />
               ))
             ) : (

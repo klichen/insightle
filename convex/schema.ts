@@ -15,7 +15,7 @@ const schema = defineSchema({
     ownerId: v.id("users"),
     name: v.string(),
     description: v.string(),
-  }),
+  }).index("byOwnerId", ["ownerId"]),
   feedback: defineTable({
     author: v.string(),
     authorId: v.id("users"),
