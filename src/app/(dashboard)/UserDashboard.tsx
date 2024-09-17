@@ -1,6 +1,6 @@
 'use client';
 
-import { AvatarIcon } from '@radix-ui/react-icons'
+import { AvatarIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import * as React from "react";
 import { useState } from "react";
 import BusinessCard from "@/components/ui/BusinessCard";
@@ -90,9 +90,7 @@ export default function UserHomePage({ currentUser }: { currentUser: User }) {
                 onKeyPress={handleKeyPress}
                 className="w-full p-2 border border-gray-300 rounded-md pr-10 h-10"
               />
-              <img
-                src="/favicon.ico"
-                alt="Search"
+              <MagnifyingGlassIcon
                 onClick={handleSearch}
                 className="absolute right-3 top-2 cursor-pointer w-6 h-6"
               />
