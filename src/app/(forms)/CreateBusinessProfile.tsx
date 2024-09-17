@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, ChangeEvent } from "react";
+// import { useState, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,32 +13,45 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { useState } from "react";
+
 
 export const description =
   "A profile creation form with business name, description, and image upload.";
 
-export default function ProfileCreationForm() {
+export default function ProfileCreationForm({ currentUser, stateChanger }: {currentUser: any, stateChanger: any}) {
+  const [bizName, setBizName] = useState("");
+  const [bizDescription, setBizDescription] = useState("");
+  const createBusiness = useMutation(api.business.createBusiness)
   // Define state for image preview with type annotations
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  // const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   // Event handler for image input change
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // Optional chaining for type safety
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string); // Type cast result to string
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0]; // Optional chaining for type safety
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setImagePreview(reader.result as string); // Type cast result to string
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+
+  const handleSave = async () => {
+    await createBusiness({ name: bizName, description: bizDescription, ownerId: currentUser._id });
+    stateChanger(true);
+  }
+
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="mx-auto max-w-sm my-8">
       <CardHeader>
         <CardTitle className="text-2xl">Create a Profile</CardTitle>
         <CardDescription>
-          Enter your business name, a short description, and upload an image.
+          Enter your business name and a short description!
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
@@ -49,6 +62,7 @@ export default function ProfileCreationForm() {
             type="text"
             placeholder="Your Business Name"
             required
+            onChangeCapture={e => setBizName(e.currentTarget.value)}
           />
         </div>
         <div className="grid gap-2">
@@ -57,9 +71,10 @@ export default function ProfileCreationForm() {
             id="description"
             placeholder="Describe your business"
             required
+            onChangeCapture={e => setBizDescription(e.currentTarget.value)}
           />
         </div>
-        <div className="grid gap-2">
+        {/* <div className="grid gap-2">
           <Label htmlFor="imageUpload">Business Image</Label>
           <div
             className="relative w-full h-48 bg-gray-200 rounded-lg cursor-pointer flex items-center justify-center"
@@ -82,10 +97,10 @@ export default function ProfileCreationForm() {
             className="hidden"
             onChange={handleImageChange}
           />
-        </div>
+        </div> */}
       </CardContent>
       <CardFooter>
-        <Button className="w-full">Create Profile</Button>
+        <Button className="w-full" onClick={handleSave}>Save</Button>
       </CardFooter>
     </Card>
   );

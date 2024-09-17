@@ -20,11 +20,3 @@ export const sendFeedback = mutation({
         await ctx.db.insert("feedback", { content, author, authorId, businessId });
     },
 });
-
-export const createBusiness = mutation({
-    args: { ownerId: v.id("users"), name: v.string(), description: v.string(), },
-    handler: async (ctx, { ownerId, name, description }) => {
-        // Create business profile
-        await ctx.db.insert("businesses", { ownerId, name, description });
-    },
-});
