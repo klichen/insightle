@@ -6,8 +6,19 @@ import { useState } from "react";
 import BusinessCard from "@/components/ui/BusinessCard";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { Id } from '../../../convex/_generated/dataModel';
 
-export default function UserHomePage({ currentUser }) {
+export interface User {
+    _id: Id<'users'>;
+    _creationTime: number;
+    image?: string;
+    name?: string;
+    email?: string;
+    isOwner?: boolean;
+    isAnonymous?: boolean;
+  }
+
+export default function UserHomePage({ currentUser }: { currentUser: User }) {
   const businesses = useQuery(api.business.getBusinesses);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOption, setSortOption] = useState<string>("");

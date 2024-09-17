@@ -4,12 +4,16 @@ import * as React from "react";
 import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { User } from "@/app/(dashboard)/UserDashboard";
+import { Id } from "../../../convex/_generated/dataModel";
 
 // Define the props interface
 interface BusinessCardProps {
   imageSrc: string;
   title: string;
   subtext: string;
+  currentUser: User;
+  bizId: Id<'businesses'>;
 }
 
 // Reusable BusinessCard component
@@ -27,7 +31,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({
 
   const handleSubmitFeedback = async () => {
     // console.log(bizId)
-    await sendFeedback({ author: currentUser.name, authorId: currentUser._id, content: feedback, businessId: bizId });
+    await sendFeedback({ author: currentUser.name as string, authorId: currentUser._id, content: feedback, businessId: bizId });
     setIsModalOpen(false);
   }
 

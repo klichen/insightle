@@ -16,15 +16,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useState } from "react";
+import { User } from "../(dashboard)/UserDashboard";
 
 
 export const description =
   "A profile creation form with business name, description, and image upload.";
 
-export default function ProfileCreationForm({ currentUser, stateChanger }: {currentUser: any, stateChanger: any}) {
+export default function ProfileCreationForm({ currentUser }: { currentUser: User }) {
   const [bizName, setBizName] = useState("");
   const [bizDescription, setBizDescription] = useState("");
-  const createBusiness = useMutation(api.business.createBusiness)
+  const createBusiness = useMutation(api.business.createBusiness);
   // Define state for image preview with type annotations
   // const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -42,8 +43,7 @@ export default function ProfileCreationForm({ currentUser, stateChanger }: {curr
 
   const handleSave = async () => {
     await createBusiness({ name: bizName, description: bizDescription, ownerId: currentUser._id });
-    stateChanger(true);
-  }
+  };
 
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { PersonIcon, AvatarIcon } from "@radix-ui/react-icons";
+import { AvatarIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 import { TrendingUp } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
@@ -22,6 +22,7 @@ import DialogButton from "@/components/ui/DialogButton";
 import { Progress } from "@/components/ui/progress";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
 
 // Sentiment analysis data
 const chartData = [
@@ -49,7 +50,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function Component({ bizId }) {
+export default function Component({ bizId }: { bizId: Id<'businesses'> }) {
   const totalSentiments = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.count, 0);
   }, []);
@@ -208,7 +209,7 @@ export default function Component({ bizId }) {
 }
 
 // Comments Card Component
-function CommentsCard({ bizId }) {
+function CommentsCard({ bizId }: { bizId: Id<'businesses'> }) {
   const feedback = useQuery(api.feedback.businessFeedback, { businessId: bizId });
 
   if (!feedback || feedback.length === 0) {
@@ -230,7 +231,6 @@ function CommentsCard({ bizId }) {
           <div key={index} className="mb-4">
             <DialogButton
               buttonText={`Feedback from ${comment.author}`}
-              icon={<PersonIcon className="h-6 w-6" />}
               dialogTitle={`Feedback from ${comment.author}`}
               fullText={comment.content}
             />
