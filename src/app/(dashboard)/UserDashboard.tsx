@@ -55,7 +55,14 @@ export default function UserHomePage({ currentUser }: { currentUser: User }) {
   const filteredBusinesses = handleSearch();
 
   return (
-    <div>
+    <div
+    style={{
+      backgroundImage: `url('/userdashbg.png')`, // Change the path to your image
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }}
+    >
       {/* Navbar */}
       <nav
         className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 shadow-md`}
