@@ -4,7 +4,7 @@
 <!-- ABOUT THE PROJECT -->
 ### About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![Product Name Screen Shot][product-screenshot]
 
 Insightle is a platform for small business owners to receive unbiased feedback and for helpful customers to provide such feedback.
 #### Features so far
@@ -16,7 +16,7 @@ Insightle is a platform for small business owners to receive unbiased feedback a
 
 ### Motivation
 
-Insightly started as an idea when we worked at a struggling restaurant. We were thinking it was really hard for small business owners to get unbiased feedback - they are usually extremely busy working with no days off, they can't ask their friends and family for unbiased opinions, and they get a very limited amount of internet reviews. So we wanted to build a platform for these owners to receive anonymous feedback from customers, fellow professionals, and overall anyone willing to help.
+Insightle started as an idea when we worked at a struggling restaurant. We were thinking it was really hard for small business owners to get unbiased feedback - they are usually extremely busy working with no days off, they can't ask their friends and family for unbiased opinions, and they get a very limited amount of internet reviews. So we wanted to build a platform for these owners to receive anonymous feedback from customers, fellow professionals, and overall anyone willing to help.
 
 ### Built With
 
