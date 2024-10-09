@@ -1,6 +1,6 @@
 'use client';
 
-import { PersonIcon } from '@radix-ui/react-icons'
+import { AvatarIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import * as React from "react";
 import { useState } from "react";
 import BusinessCard from "@/components/ui/BusinessCard";
@@ -55,16 +55,23 @@ export default function UserHomePage({ currentUser }: { currentUser: User }) {
   const filteredBusinesses = handleSearch();
 
   return (
-    <div>
+    <div
+    style={{
+      backgroundImage: `url('/cool-background.png')`, // Change the path to your image
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }}
+    >
       {/* Navbar */}
       <nav
-        className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300`}
+        className={`bg-white text-black py-4 px-6 fixed w-full top-0 left-0 z-10 transition-shadow duration-300 shadow-md`}
       >
         <div className="flex justify-between items-center max-w-5xl mx-auto">
-          <div className="text-2xl font-bold">Insightle</div>
-          <ul className="flex space-x-6">
-            <li><PersonIcon className="w-5 h-5" /></li>
-          </ul>
+          <div className="text-2xl font-bold">Insightle.</div>
+          <div className="ml-auto mr--10">
+            <AvatarIcon className="w-5 h-5"/>
+          </div>
         </div>
       </nav>
 
@@ -90,9 +97,7 @@ export default function UserHomePage({ currentUser }: { currentUser: User }) {
                 onKeyPress={handleKeyPress}
                 className="w-full p-2 border border-gray-300 rounded-md pr-10 h-10"
               />
-              <img
-                src="/favicon.ico"
-                alt="Search"
+              <MagnifyingGlassIcon
                 onClick={handleSearch}
                 className="absolute right-3 top-2 cursor-pointer w-6 h-6"
               />
