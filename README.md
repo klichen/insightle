@@ -1,5 +1,5 @@
 
-## Insightle | https://insightle-kuphft421-klichens-projects.vercel.app/
+## Insightle | https://insightle.vercel.app
 ---
 <!-- ABOUT THE PROJECT -->
 ### About The Project
@@ -13,7 +13,6 @@ Insightle is a platform for small business owners to receive unbiased feedback a
 2. Business owners can view feedback: An intuitive interface that allows business owners to access and analyze feedback to gain valuable insights into their operations and customer experience.
 
 3. Authentication: Secure login system for both business owners and customers, ensuring only verified users can participate in the platform.
-
 
 ### Motivation
 
@@ -31,12 +30,6 @@ Insightly started as an idea when we worked at a struggling restaurant. We were 
 <a href="https://github.com/Fungibus">
   <img src="https://avatars.githubusercontent.com/u/75358231?v=4" alt="fungibus" width="50px" />
 </a>
-
-
-
-
-
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
