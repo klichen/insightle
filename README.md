@@ -21,9 +21,9 @@ Insightly started as an idea when we worked at a struggling restaurant. We were 
 
 ### Built With
 
-* [![Convex][Convex]][React-url]
+* [![Convex][Convex]][Convex-url]
 * [![React][React.js]][React-url]
-* [![Next][Next.js]][Convex-url]
+* [![Next][Next.js]][Next-url]
 
 
 ### Teammate:
