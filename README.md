@@ -23,7 +23,7 @@ Insightly started as an idea when we worked at a struggling restaurant. We were 
 
 * [![Convex][Convex]][React-url]
 * [![React][React.js]][React-url]
-* [![Next][Next.js]][Next-url]
+* [![Next][Next.js]][Convex-url]
 
 
 ### Teammate:
